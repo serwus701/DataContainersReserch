@@ -8,18 +8,14 @@
 
 class FileManagement {
 private:
-    int size = 1000;
-    std::fstream inputNumbers;
-    std::fstream outputNumbers;
+    std::fstream file;
 public:
-    void createInputFile();
-    void createOutputFile();
-    void closeInputFile();
-    void closeOutputFile();
-    void randNumbersToFile();
+    void openFile(char, std::string);
+    void closeFile();
+    void randNumbersToFile(int);
     int getLine();
-    void write(int);
-
+    void writeNum(double);
+    void writeStr(std::string);
 };
 
 

@@ -7,7 +7,7 @@
 
 
 void MyArray::addRear(int element) {
-//creating a new array, rewriting each element with pointers and adding last element
+//creating a new functionManager, rewriting each element with pointers and adding last element
     size++;
     int *newTab = new int[size];
     int * toDelete = tabPointer;
@@ -27,13 +27,13 @@ void MyArray::addRear(int element) {
 }
 
 void MyArray::addFront(int element) {
-    //creating a new array, adding new first element and rewriting each element with pointers until the end
+    //creating a new functionManager, adding new first element and rewriting each element with pointers until the end
     size++;
-    int *newTab = new int[size - 1];
+    int * newTab = new int[size];
     int * toDelete = tabPointer;
 
     if (size > 1) {
-        int *tempPointer = newTab;
+        int * tempPointer = newTab;
         tempPointer++;
         for (int i = 0; i < size - 1; i++) {
             *tempPointer = *tabPointer;
@@ -48,7 +48,7 @@ void MyArray::addFront(int element) {
 }
 
 void MyArray::addOnPos(int position, int container) {
-//creating a new array, rewriting each element until certain position, then inserting extra one and rewriting until the end
+//creating a new functionManager, rewriting each element until certain position, then inserting extra one and rewriting until the end
     if ((position < size) && (position > -1)) {
         size++;
         int *newTab = new int[size];
@@ -76,7 +76,7 @@ void MyArray::addOnPos(int position, int container) {
 }
 
 void MyArray::deleteRear() {
-    //creating a new array, rewriting each element but the last one
+    //creating a new functionManager, rewriting each element but the last one
     if (size > 0) {
         size--;
         int *newTab = new int[size];
@@ -89,20 +89,18 @@ void MyArray::deleteRear() {
             tabPointer++;
         }
 
-        delete tabPointer;
         tabPointer = newTab;
-        delete toDelete;
+        delete[] toDelete;
     }
 }
 
 void MyArray::deleteFront() {
-//creating a new array, skipping first one, and rewriting each element with pointers
+//creating a new functionManager, skipping first one, and rewriting each element with pointers
     if (size > 0) {
         size--;
-        int *newTab = new int[size];
+        int * newTab = new int[size];
         int * toDelete = tabPointer;
-        int *tempPointer = newTab;
-        delete tabPointer;
+        int * tempPointer = newTab;
         tabPointer++;
         for (int i = 0; i < size; i++) {
             *tempPointer = *tabPointer;
@@ -110,12 +108,12 @@ void MyArray::deleteFront() {
             tabPointer++;
         }
         tabPointer = newTab;
-        delete toDelete;
+        delete[] toDelete;
     }
 }
 
 void MyArray::deleteOnPos(int position) {
-//creating a new array, rewriting each element until certain position, then skipping one position and rewriting until the end
+//creating a new functionManager, rewriting each element until certain position, then skipping one position and rewriting until the end
     if ((position < size) && (position > -1)) {
         int *newTab = new int[size - 1];
         int * toDelete = tabPointer;
@@ -126,7 +124,6 @@ void MyArray::deleteOnPos(int position) {
             tabPointer++;
         }
 
-        delete tabPointer;
         tabPointer++;
 
         for (int i = position; i < size - 1; i++) {
@@ -136,7 +133,7 @@ void MyArray::deleteOnPos(int position) {
         }
 
         tabPointer = newTab;
-        delete toDelete;
+        delete[] toDelete;
         size--;
     }
 

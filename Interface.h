@@ -11,29 +11,25 @@
 #include "List//MyList.h"
 #include "Array/MyArray.h"
 #include "BinaryTree/MyBinaryTree.h"
+#include "FileManagement.h"
 
 
 class Interface {
 private:
-    static void array(int, int);
-    static void binary(int, int);
-    static void list(int, int);
-    static void redBlack();
-
     static void tArray();
     static void tBinary();
     static void tList();
     static void tRedBlack();
 
     static int myInput();
-    static double countAverage(double *, int size);
+    static void output(std::string, double, int, FileManagement *);
 
     static void simulation();
     static void test();
 
-    static void eachArrayFunction(int , int , int , int , int , int );
-    static void eachBinaryFunction(int , int , int , int , int );
-    static void eachListFunction(int , int , int , int , int );
+    static void eachArrayFunction(int , int , int , FileManagement*);
+    static void eachBinaryFunction(int , int , int , FileManagement*);
+    static void eachListFunction(int , int , int , FileManagement*);
 
 public:
     static void run();

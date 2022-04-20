@@ -23,6 +23,7 @@ void startCounter() {
     QueryPerformanceCounter(&li);
     CounterStart = li.QuadPart;
 }
+
 double getCounter() {
     LARGE_INTEGER li;
     QueryPerformanceCounter(&li);
@@ -36,10 +37,8 @@ void Interface::run() {
     while (!exit) {
         std::cout << "Enter simulation or test mode? (s/t) (e for exit)" << std::endl;
 
-        char choose;
-        choose = getch();
-        //choose = 's';
-
+        char choose = 's';
+        //choose = getch();
 
         switch (choose) {
             case 's':
@@ -54,93 +53,92 @@ void Interface::run() {
     }
 
 }
+
 void Interface::simulation() {
+
+    int howManyRepetitions = 100;
+    int howManyElements = 1000;
+    int itHowManyElements = 100;
+
+    FileManagement myFileManager;
+
+    myFileManager.openFile('o', "data");
+    myFileManager.randNumbersToFile(howManyElements);
+    myFileManager.closeFile();
+
+
     char type = 'c';
-    int howManyRepetitions, howManyElements;
     while (type != 'e') {
         std::cout << "insert a/l/b/r" << std::endl;
-        std::cin>>type;
+        std::cin >> type;
 
-        std::cout << "How many repetitions" << std::endl;
-        std::cin >> howManyRepetitions;
-        std::cout << "How many elements" << std::endl;
-        std::cin >> howManyElements;
+        if ((howManyElements != NULL) && (howManyRepetitions != NULL)) {
+            int number, position;
+            std::cout<<"dupsko"<<std::endl;
 
-        switch (type) {
-            case 'a':
-                array(howManyRepetitions, howManyElements);
-                break;
-            case 'l':
-                list(howManyRepetitions, howManyElements);
-                break;
-            case 'b':
-                binary(howManyRepetitions, howManyElements);
-                break;
-            case 'r':
-                redBlack();
-                break;
-        }
-    }
-}
-void Interface::test() {
-    char type;
-    do {
-        std::cout << "insert a/l/b/r" << std::endl;
-        type = getch();
-        switch (type) {
-            case 'a':
-                tArray();
-                break;
-            case 'l':
-                tList();
-                break;
-            case 'b':
-                tBinary();
-                break;
-            case 'r':
-                redBlack();
-                break;
-        }
-    } while (type != 'e');
-}
-
-
-void Interface::array(int howMany, int howManyElements) {
-
-    if (howMany != NULL) {
-        if (howManyElements != NULL) {
-            int number, position, pos2;
-
-            number = 5;
-            position = rand() % (howManyElements - 1) + 1;
-            pos2 = rand() % (howManyElements - 1) + 1;
-
-            if ((number != NULL) && (position != NULL) && (pos2 != NULL)) {
-                if ((howMany > 1) && (howManyElements > 1))
-                    for (int i = 0; i < 8; i++) {
-                        eachArrayFunction(i, number, position, pos2, howMany, howManyElements);
+            for (; itHowManyElements < howManyElements; itHowManyElements += 100) {
+                if ((howManyRepetitions > 1) && (howManyElements > 1))
+                    for (int i = 0; i < 7; i++) {
+                        switch (type) {
+                            case 'a':
+                                eachArrayFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
+                                break;
+                            case 'l':
+                                std::cout<<"dupsko"<<std::endl;
+                                eachListFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
+                                break;
+                            case 'b':
+                                eachBinaryFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
+                                break;
+                            case 'r':
+                                break;
+                        }
                     }
+                switch (type) {
+                    case 'a':
+                        myFileManager.openFile('o', "arrayOutput");
+                        myFileManager.writeStr("\n");
+                        myFileManager.closeFile();
+                        break;
+                    case 'b':
+                        myFileManager.openFile('o', "binaryOutput");
+                        myFileManager.writeStr("\n");
+                        myFileManager.closeFile();
+                        break;
+                    case 'l':
+                        myFileManager.openFile('o', "listOutput");
+                        myFileManager.writeStr("\n");
+                        myFileManager.closeFile();
+                        break;
+                }
             }
         }
     }
 }
-void Interface::eachArrayFunction(int method, int number, int position, int pos2, int howMany, int howManyElements) {
+
+void
+Interface::eachArrayFunction(int method, int howManyRepetitions, int howManyElements, FileManagement *myFileManager) {
     std::string name;
-    MyArray myArrays[howMany];
+    int number, position;
     double totalTime = 0;
 
+    MyArray myArrays[howManyRepetitions];
+
     for (MyArray &eachElement: myArrays) {
-        //FileManagement myFileManager;
-        //myFileManager.createInputFile();
+
+        (*myFileManager).openFile('i', "data");
         for (int i = 0; i < howManyElements; i++) {
-            //int rndNumber = myFileManager.getLine();
-            eachElement.addRear(5);
-            //eachElement.addRear(rndNumber);
+            int rndNumber = (*myFileManager).getLine();
+            eachElement.addRear(rndNumber);
         }
-        //myFileManager.closeInputFile();
+        (*myFileManager).closeFile();
     }
 
+    (*myFileManager).openFile('o', "arrayOutput");
+
     for (MyArray each: myArrays) {
+        position = rand() % (howManyElements - 1) + 1;
+        number = 1;
         switch (method) {
             case 0:
                 name = "ADD FRONT";
@@ -187,9 +185,160 @@ void Interface::eachArrayFunction(int method, int number, int position, int pos2
         }
     }
 
-    std::cout << name << std::endl;
-    std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
+    output(name, totalTime, howManyRepetitions, myFileManager);
+    (*myFileManager).closeFile();
 }
+
+void
+Interface::eachBinaryFunction(int method, int howManyRepetitions, int howManyElements, FileManagement *myFileManager) {
+    std::string name;
+    int number, position;
+    double totalTime = 0;
+
+    MyBinaryTree myBinaryTrees[howManyRepetitions];
+
+    for (MyBinaryTree &eachElement: myBinaryTrees) {
+        (*myFileManager).openFile('i', "data");
+        for (int i = 0; i < howManyElements; i++) {
+            int rndNumber = (*myFileManager).getLine();
+            eachElement.add(rndNumber);
+            eachElement.add(5);
+        }
+        (*myFileManager).closeFile();
+    }
+    (*myFileManager).openFile('o', "binaryOutput");
+
+    for (MyBinaryTree element: myBinaryTrees) {
+        switch (method) {
+            case 0:
+                name = "ADD";
+                startCounter();
+                element.add(number);
+                totalTime += getCounter();
+                break;
+            case 1:
+                name = "DELETE LAST";
+                startCounter();
+                element.deleteLast();
+                totalTime += getCounter();
+                break;
+            case 2:
+                name = "DELETE ROOT";
+                startCounter();
+                element.deleteRoot();
+                totalTime += getCounter();
+                break;
+            case 3:
+                name = "REGAIN HIP ATTRIBUTES";
+                startCounter();
+                element.regainHipAttributes();
+                totalTime += getCounter();
+                break;
+            case 4:
+                name = "FIND FIRST";
+                startCounter();
+                element.findFirst(number);
+                totalTime += getCounter();
+                break;
+        }
+    }
+
+    output(name, totalTime, howManyRepetitions, myFileManager);
+    (*myFileManager).closeFile();
+}
+
+void
+Interface::eachListFunction(int method, int howManyRepetitions, int howManyElements, FileManagement *myFileManager) {
+    std::string name;
+    int number, position;
+    double totalTime = 0;
+
+    MyList myLists[howManyRepetitions];
+
+    for (MyList &eachElement: myLists) {
+        (*myFileManager).openFile('i', "data");
+        for (int i = 0; i < howManyElements; i++) {
+            int rndNumber = (*myFileManager).getLine();
+            eachElement.addRear(rndNumber);
+            eachElement.addRear(5);
+        }
+        (*myFileManager).closeFile();
+    }
+    (*myFileManager).openFile('o', "listOutput");
+
+    for (MyList element: myLists) {
+        switch (method) {
+            case 0:
+                name = "ADD FRONT";
+                startCounter();
+                element.addFront(number);
+                totalTime += getCounter();
+                break;
+            case 1:
+                name = "ADD REAR";
+                startCounter();
+                element.addRear(number);
+                totalTime += getCounter();
+                break;
+            case 2:
+                name = "ADD POS";
+                startCounter();
+                element.addPos(position, number);
+                totalTime += getCounter();
+                break;
+            case 3:
+                name = "DELETE FRONT";
+                startCounter();
+                element.deleteFront();
+                totalTime += getCounter();
+                break;
+            case 4:
+                name = "DELETE REAR";
+                startCounter();
+                element.deleteRear();
+                totalTime += getCounter();
+                break;
+            case 5:
+                name = "DELETE ON POS";
+                startCounter();
+                element.deletePos(position);
+                totalTime += getCounter();
+                break;
+            case 6:
+                name = "FIND FIRST";
+                startCounter();
+                element.findFirst(number);
+                totalTime += getCounter();
+                break;
+        }
+    }
+
+    output(name, totalTime, howManyRepetitions, myFileManager);
+    (*myFileManager).closeFile();
+}
+
+void Interface::test() {
+    char type;
+    do {
+        std::cout << "insert a/l/b/r" << std::endl;
+        type = getch();
+        switch (type) {
+            case 'a':
+                tArray();
+                break;
+            case 'l':
+                tList();
+                break;
+            case 'b':
+                tBinary();
+                break;
+            case 'r':
+                tRedBlack();
+                break;
+        }
+    } while (type != 'e');
+}
+
 void Interface::tArray() {
     MyArray myArray;
 
@@ -259,88 +408,6 @@ void Interface::tArray() {
     } while (whatToDo != "e");
 }
 
-void Interface::binary(int howMany, int howManyElements) {
-
-    //std::cout << "How many boards?" << std::endl;
-    //int howMany = myInput();
-    if (howMany != NULL) {
-        MyBinaryTree myBinaryTrees[howMany];
-
-        //std::cout << "How many elements in each board? (>1)" << std::endl;
-        //int howManyElements = myInput();
-        if (howManyElements != NULL) {
-            int number, position;
-            double totalTime;
-
-            //std::cout << "Insert number (what to add)" << std::endl;
-            //number = myInput();
-            number = 5;
-            //std::cout << "Insert position (where to add/delete)" << std::endl;
-            //position = myInput();
-            position = rand() % (howManyElements - 1) + 1;
-
-            if ((number != NULL) && (position != NULL)) {
-                if ((howMany > 1) && (howManyElements > 1))
-                    for (int i = 0; i < 5; i++) {
-                        eachBinaryFunction(i, number, position, howMany, howManyElements);
-                    }
-            }
-        }
-    }
-}
-void Interface::eachBinaryFunction(int method, int number, int position, int howMany, int howManyElements) {
-    std::string name;
-    MyBinaryTree myBinaryTrees[howMany];
-    double totalTime = 0;
-    for (MyBinaryTree &eachElement: myBinaryTrees) {
-        //FileManagement myFileManager;
-        //myFileManager.createInputFile();
-        for (int i = 0; i < howManyElements; i++) {
-            //int rndNumber = myFileManager.getLine();
-            //eachElement.add(rndNumber);
-            eachElement.add(5);
-        }
-        //myFileManager.closeInputFile();
-    }
-
-    for (MyBinaryTree element: myBinaryTrees) {
-        switch (method) {
-            case 0:
-                name = "ADD";
-                startCounter();
-                element.add(number);
-                totalTime += getCounter();
-                break;
-            case 1:
-                name = "DELETE LAST";
-                startCounter();
-                element.deleteLast();
-                totalTime += getCounter();
-                break;
-            case 2:
-                name = "DELETE ROOT";
-                startCounter();
-                element.deleteRoot();
-                totalTime += getCounter();
-                break;
-            case 3:
-                name = "REGAIN HIP ATTRIBUTES";
-                startCounter();
-                element.regainHipAttributes();
-                totalTime += getCounter();
-                break;
-            case 4:
-                name = "FIND FIRST";
-                startCounter();
-                element.findFirst(number);
-                totalTime += getCounter();
-                break;
-        }
-    }
-
-    std::cout << name << std::endl;
-    std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
-}
 void Interface::tBinary() {
 
     MyBinaryTree myBinaryTree;
@@ -380,112 +447,6 @@ void Interface::tBinary() {
     } while (whatToDo != "e");
 }
 
-void Interface::list(int howMany, int howManyElements) {
-    //std::cout << "How many boards?" << std::endl;
-    //int howMany = myInput();
-    if (howMany != NULL) {
-        MyList myLists[howMany];
-
-        //std::cout << "How many elements in each board? (>1)" << std::endl;
-        //int howManyElements = myInput();
-        if (howManyElements != NULL) {
-            int number, position;
-            double totalTime;
-
-            //std::cout << "Insert number (what to add)" << std::endl;
-            //number = myInput();
-            number = 1;
-            //std::cout << "Insert position (where to add/delete)" << std::endl;
-            //position = myInput();
-            position = 1;
-
-            if ((number != NULL) && (position != NULL)) {
-                if ((howMany > 1) && (howManyElements > 1))
-                    for (int i = 0; i < 9; i++) {
-                        eachListFunction(i, number, position, howMany, howManyElements);
-                    }
-            }
-
-        }
-    }
-}
-void Interface::eachListFunction(int method, int number, int position, int howMany, int howManyElements) {
-    std::string name;
-    MyList myLists[howMany];
-    double totalTime = 0;
-    for (MyList &eachElement: myLists) {
-        //FileManagement myFileManager;
-        //myFileManager.createInputFile();
-        for (int i = 0; i < howManyElements; i++) {
-            //int rndNumber = myFileManager.getLine();
-            //eachElement.addRear(rndNumber);
-            eachElement.addRear(5);
-        }
-        //myFileManager.closeInputFile();
-    }
-
-    for (MyList element: myLists) {
-        switch (method) {
-            case 0:
-                name = "ADD FRONT";
-                startCounter();
-                element.addFront(number);
-                totalTime += getCounter();
-                break;
-            case 1:
-                name = "ADD REAR";
-                startCounter();
-                element.addRear(number);
-                totalTime += getCounter();
-                break;
-            case 2:
-                name = "ADD POS";
-                startCounter();
-                element.addPos(position, number);
-                totalTime += getCounter();
-                break;
-            case 3:
-                name = "DELETE FRONT";
-                startCounter();
-                element.deleteFront();
-                totalTime += getCounter();
-                break;
-            case 4:
-                name = "DELETE REAR";
-                startCounter();
-                element.deleteRear();
-                totalTime += getCounter();
-                break;
-            case 5:
-                name = "DELETE ON POS";
-                startCounter();
-                element.deletePos(position);
-                totalTime += getCounter();
-                break;
-            case 6:
-                name = "FIND FIRST";
-                startCounter();
-                element.findFirst(number);
-                totalTime += getCounter();
-                break;
-            case 7:
-                name = "GET HEAD";
-                startCounter();
-                element.getHead();
-                totalTime += getCounter();
-                break;
-            case 8:
-                name = "GET";
-                startCounter();
-                element.getElement(position);
-                totalTime += getCounter();
-                break;
-        }
-    }
-
-    std::cout << name << std::endl;
-    std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
-}
 void Interface::tList() {
     MyList myList;
 
@@ -551,9 +512,6 @@ void Interface::tList() {
     } while (whatToDo != "e");
 }
 
-void Interface::redBlack() {
-
-}
 void Interface::tRedBlack() {
 
 }
@@ -566,6 +524,7 @@ bool Interface::isNumber(std::string potentialNumber) {
     }
     return isDigit;
 }
+
 int Interface::myInput() {
     std::cout << "insert number" << std::endl;
     std::string number;
@@ -575,5 +534,12 @@ int Interface::myInput() {
         return stoi(number);
     else
         return NULL;
+}
+
+void Interface::output(std::string name, double totalTime, int howMany, FileManagement *myFileManager) {
+    std::cout << name << std::endl;
+    std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
+    (*myFileManager).writeNum(totalTime / howMany);
+
 }
 

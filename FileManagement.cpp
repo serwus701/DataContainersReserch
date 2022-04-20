@@ -5,41 +5,35 @@
 #include "FileManagement.h"
 #include "Interface.h"
 
-void FileManagement::createInputFile() {
-    inputNumbers.open("inputNumbers.txt");
-    if (!inputNumbers)
-        std::cout<<"File has not been created.";
-}
-
-void FileManagement::randNumbersToFile() {
-    int number;
-    for(int i = 0; i < size; i++){
-        number = rand() % 200 - 100;
-        inputNumbers << number;
-        inputNumbers << std::endl;
+void FileManagement::openFile(char inputOutput, std::string fileName) {
+    if(inputOutput == 'i'){
+        file.open(fileName + ".txt", std::ios::in);
+    } else{
+        file.open(fileName + ".txt", std::ios::app);
     }
 }
 
-void FileManagement::closeInputFile() {
-    inputNumbers.close();
+void FileManagement::randNumbersToFile(int size) {
+    for(int i = 0; i < size; i++){
+        file << (rand() % 200 - 100);
+        file << std::endl;
+    }
+}
+
+void FileManagement::closeFile() {
+    file.close();
 }
 
 int FileManagement::getLine() {
     std::string strNumber;
-    inputNumbers >> strNumber;
+    file >> strNumber;
     return stoi(strNumber);
 }
 
-void FileManagement::createOutputFile()  {
-        outputNumbers.open("outputNumbers.txt");
-        if (!inputNumbers)
-            std::cout<<"File has not been created.";
+void FileManagement::writeNum(double toWrite) {
+    file << toWrite << " ";
 }
 
-void FileManagement::closeOutputFile() {
-    outputNumbers.close();
-}
-
-void FileManagement::write(int toWrite) {
-    outputNumbers << toWrite;
+void FileManagement::writeStr(std::string toWrite) {
+    file << toWrite;
 }
