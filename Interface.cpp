@@ -8,7 +8,6 @@
 #include <profileapi.h>
 
 #include "Interface.h"
-#include "FileManagement.h"
 
 double PCFreq = 0.0;
 __int64 CounterStart = 0;
@@ -37,8 +36,8 @@ void Interface::run() {
     while (!exit) {
         std::cout << "Enter simulation or test mode? (s/t) (e for exit)" << std::endl;
 
-        char choose = 's';
-        //choose = getch();
+        char choose;
+        choose = getch();
 
         switch (choose) {
             case 's':
@@ -56,62 +55,57 @@ void Interface::run() {
 
 void Interface::simulation() {
 
-    int howManyRepetitions = 100;
-    int howManyElements = 1000;
-    int itHowManyElements = 100;
+    int howManyRepetitions = 1000;
+    int totalHowManyElements = 10000;
+    int startHowManyElements = 1000;
+    int jump = 100;
 
     FileManagement myFileManager;
 
     myFileManager.openFile('o', "data");
-    myFileManager.randNumbersToFile(howManyElements);
+    myFileManager.randNumbersToFile(totalHowManyElements);
     myFileManager.closeFile();
 
 
-    char type = 'c';
-    while (type != 'e') {
-        std::cout << "insert a/l/b/r" << std::endl;
-        std::cin >> type;
+    std::cout << "insert a/l/b/r" << std::endl;
+    char type;
+    std::cin >> type;
 
-        if ((howManyElements != NULL) && (howManyRepetitions != NULL)) {
-            int number, position;
-            std::cout<<"dupsko"<<std::endl;
+    int number, position;
 
-            for (; itHowManyElements < howManyElements; itHowManyElements += 100) {
-                if ((howManyRepetitions > 1) && (howManyElements > 1))
-                    for (int i = 0; i < 7; i++) {
-                        switch (type) {
-                            case 'a':
-                                eachArrayFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
-                                break;
-                            case 'l':
-                                std::cout<<"dupsko"<<std::endl;
-                                eachListFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
-                                break;
-                            case 'b':
-                                eachBinaryFunction(i, howManyRepetitions, itHowManyElements, &myFileManager);
-                                break;
-                            case 'r':
-                                break;
-                        }
-                    }
+    for (; startHowManyElements < totalHowManyElements; startHowManyElements += jump) {
+        if ((howManyRepetitions > 1) && (totalHowManyElements > 1))
+            for (int i = 0; i < 7; i++) {
                 switch (type) {
                     case 'a':
-                        myFileManager.openFile('o', "arrayOutput");
-                        myFileManager.writeStr("\n");
-                        myFileManager.closeFile();
-                        break;
-                    case 'b':
-                        myFileManager.openFile('o', "binaryOutput");
-                        myFileManager.writeStr("\n");
-                        myFileManager.closeFile();
+                        eachArrayFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
                         break;
                     case 'l':
-                        myFileManager.openFile('o', "listOutput");
-                        myFileManager.writeStr("\n");
-                        myFileManager.closeFile();
+                        eachListFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
+                        break;
+                    case 'b':
+                        eachBinaryFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
+                        break;
+                    case 'r':
                         break;
                 }
             }
+        switch (type) {
+            case 'a':
+                myFileManager.openFile('o', "arrayOutput");
+                myFileManager.writeStr("\n");
+                myFileManager.closeFile();
+                break;
+            case 'b':
+                myFileManager.openFile('o', "binaryOutput");
+                myFileManager.writeStr("\n");
+                myFileManager.closeFile();
+                break;
+            case 'l':
+                myFileManager.openFile('o', "listOutput");
+                myFileManager.writeStr("\n");
+                myFileManager.closeFile();
+                break;
         }
     }
 }
