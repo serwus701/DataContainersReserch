@@ -12,8 +12,6 @@ private:
 public:
     void openFile(char, std::string);
     void closeFile();
-    void randNumbersToFile(int);
-    int getLine();
     void writeNum(double);
     void writeStr(std::string);
 };

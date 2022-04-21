@@ -75,7 +75,7 @@ ListElement *MyList::getFullElement(int position) {
 }
 
 void MyList::deletePos(int position) {
-    if ((position > -1) && (position < size)) {
+    if ((position > -1) && (position < size) && (size > 0)) {
 
         if (position == size - 1) {
             deleteRear();
@@ -132,19 +132,23 @@ void MyList::addPos(int position, int element) {
 }
 
 void MyList::deleteRear() {
-    ListElement *temp = tail;
-    tail = tail->getPrevious();
-    tail->setNext(nullptr);
-    size--;
-    delete temp;
+    if(size > 0){
+        ListElement *temp = tail;
+        tail = tail->getPrevious();
+        tail->setNext(nullptr);
+        size--;
+        delete temp;
+    }
 }
 
 void MyList::deleteFront() {
-    ListElement *temp = head;
-    head = head->getNext();
-    head->setPrevious(nullptr);
-    size--;
-    delete temp;
+    if(size > 0){
+        ListElement *temp = head;
+        head = head->getNext();
+        head->setPrevious(nullptr);
+        size--;
+        delete temp;
+    }
 }
 
 int MyList::show() {
@@ -169,5 +173,16 @@ int MyList::findFirst(int number) {
         i++;
     }
     return NULL;
+}
+
+void MyList::deleteAll() {
+    ListElement * tempPtr = head;
+    if(tempPtr != nullptr){
+        while (tempPtr->getNext() != nullptr){
+            tempPtr = tempPtr->getNext();
+            delete tempPtr->getPrevious();
+        }
+        delete tempPtr;
+    }
 }
 

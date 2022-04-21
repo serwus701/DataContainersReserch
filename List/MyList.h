@@ -40,6 +40,8 @@ public:
     int findFirst(int);
 
     int show();
+
+    void deleteAll();
 };
 
 

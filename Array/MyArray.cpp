@@ -182,3 +182,8 @@ void MyArray::show() {
     }
     std::cout << std::endl;
 }
+
+void MyArray::deleteAll() {
+    if(tabPointer != nullptr)
+        delete[] tabPointer;
+}

@@ -24,6 +24,8 @@ public:
     void show();
 
     int findFirst(int);
+
+    void deleteAll();
 };
 
 

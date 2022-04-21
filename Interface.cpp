@@ -58,13 +58,9 @@ void Interface::simulation() {
     int howManyRepetitions = 1000;
     int totalHowManyElements = 10000;
     int startHowManyElements = 1000;
-    int jump = 100;
+    int jump = 1000;
 
     FileManagement myFileManager;
-
-    myFileManager.openFile('o', "data");
-    myFileManager.randNumbersToFile(totalHowManyElements);
-    myFileManager.closeFile();
 
 
     std::cout << "insert a/l/b/r" << std::endl;
@@ -73,7 +69,8 @@ void Interface::simulation() {
 
     int number, position;
 
-    for (; startHowManyElements < totalHowManyElements; startHowManyElements += jump) {
+    for (; startHowManyElements < totalHowManyElements + 1; startHowManyElements += jump) {
+
         if ((howManyRepetitions > 1) && (totalHowManyElements > 1))
             for (int i = 0; i < 7; i++) {
                 switch (type) {
@@ -116,67 +113,67 @@ Interface::eachArrayFunction(int method, int howManyRepetitions, int howManyElem
     int number, position;
     double totalTime = 0;
 
-    MyArray myArrays[howManyRepetitions];
-
-    for (MyArray &eachElement: myArrays) {
-
-        (*myFileManager).openFile('i', "data");
-        for (int i = 0; i < howManyElements; i++) {
-            int rndNumber = (*myFileManager).getLine();
-            eachElement.addRear(rndNumber);
-        }
-        (*myFileManager).closeFile();
+    int randNumbersVector[howManyElements];
+    for (int eachElement: randNumbersVector) {
+        eachElement = (rand() % 200 - 100);
     }
 
     (*myFileManager).openFile('o', "arrayOutput");
 
-    for (MyArray each: myArrays) {
+    for (int i = 0; i < howManyRepetitions; i++) {
+        MyArray myArray;
+
+        for (int each: randNumbersVector) {
+            myArray.addRear(each);
+        }
+
         position = rand() % (howManyElements - 1) + 1;
         number = 1;
         switch (method) {
             case 0:
                 name = "ADD FRONT";
                 startCounter();
-                each.addFront(number);
+                myArray.addFront(number);
                 totalTime += getCounter();
                 break;
             case 1:
                 name = "ADD REAR";
                 startCounter();
-                each.addRear(number);
+                myArray.addRear(number);
                 totalTime += getCounter();
                 break;
             case 2:
                 name = "ADD POS";
                 startCounter();
-                each.addOnPos(position, number);
+                myArray.addOnPos(position, number);
                 totalTime += getCounter();
                 break;
             case 3:
                 name = "DELETE FRONT";
                 startCounter();
-                each.deleteFront();
+                myArray.deleteFront();
                 totalTime += getCounter();
                 break;
             case 4:
                 name = "DELETE REAR";
                 startCounter();
-                each.deleteRear();
+                myArray.deleteRear();
                 totalTime += getCounter();
                 break;
             case 5:
                 name = "DELETE ON POS";
                 startCounter();
-                each.deleteOnPos(position);
+                myArray.deleteOnPos(position);
                 totalTime += getCounter();
                 break;
             case 6:
                 name = "FIND FIRST";
                 startCounter();
-                each.findFirst(number);
+                myArray.findFirst(number);
                 totalTime += getCounter();
                 break;
         }
+        myArray.deleteAll();
     }
 
     output(name, totalTime, howManyRepetitions, myFileManager);
@@ -189,52 +186,55 @@ Interface::eachBinaryFunction(int method, int howManyRepetitions, int howManyEle
     int number, position;
     double totalTime = 0;
 
-    MyBinaryTree myBinaryTrees[howManyRepetitions];
-
-    for (MyBinaryTree &eachElement: myBinaryTrees) {
-        (*myFileManager).openFile('i', "data");
-        for (int i = 0; i < howManyElements; i++) {
-            int rndNumber = (*myFileManager).getLine();
-            eachElement.add(rndNumber);
-            eachElement.add(5);
-        }
-        (*myFileManager).closeFile();
+    int randNumbersVector[howManyElements];
+    for (int eachElement: randNumbersVector) {
+        eachElement = (rand() % 200 - 100);
     }
+
     (*myFileManager).openFile('o', "binaryOutput");
 
-    for (MyBinaryTree element: myBinaryTrees) {
+    for (int i = 0; i < howManyRepetitions; i++) {
+        MyBinaryTree myBinaryTree;
+
+        for (int each: randNumbersVector) {
+            myBinaryTree.add(each);
+        }
+
+        position = rand() % (howManyElements - 1) + 1;
+        number = 1;
         switch (method) {
             case 0:
                 name = "ADD";
                 startCounter();
-                element.add(number);
+                myBinaryTree.add(number);
                 totalTime += getCounter();
                 break;
             case 1:
                 name = "DELETE LAST";
                 startCounter();
-                element.deleteLast();
+                myBinaryTree.deleteLast();
                 totalTime += getCounter();
                 break;
             case 2:
                 name = "DELETE ROOT";
                 startCounter();
-                element.deleteRoot();
+                myBinaryTree.deleteRoot();
                 totalTime += getCounter();
                 break;
             case 3:
                 name = "REGAIN HIP ATTRIBUTES";
                 startCounter();
-                element.regainHipAttributes();
+                myBinaryTree.regainHipAttributes();
                 totalTime += getCounter();
                 break;
             case 4:
                 name = "FIND FIRST";
                 startCounter();
-                element.findFirst(number);
+                myBinaryTree.findFirst(number);
                 totalTime += getCounter();
                 break;
         }
+        myBinaryTree.deleteAll();
     }
 
     output(name, totalTime, howManyRepetitions, myFileManager);
@@ -247,64 +247,68 @@ Interface::eachListFunction(int method, int howManyRepetitions, int howManyEleme
     int number, position;
     double totalTime = 0;
 
-    MyList myLists[howManyRepetitions];
-
-    for (MyList &eachElement: myLists) {
-        (*myFileManager).openFile('i', "data");
-        for (int i = 0; i < howManyElements; i++) {
-            int rndNumber = (*myFileManager).getLine();
-            eachElement.addRear(rndNumber);
-            eachElement.addRear(5);
-        }
-        (*myFileManager).closeFile();
+    int randNumbersVector[howManyElements];
+    for (int eachElement: randNumbersVector) {
+        eachElement = (rand() % 200 - 100);
     }
+
+
     (*myFileManager).openFile('o', "listOutput");
 
-    for (MyList element: myLists) {
+    for (int i = 0; i < howManyRepetitions; i++) {
+        MyList myList;
+
+        for (int each: randNumbersVector) {
+            myList.addRear(each);
+        }
+
+        position = rand() % (howManyElements - 1) + 1;
+        number = 1;
         switch (method) {
             case 0:
                 name = "ADD FRONT";
                 startCounter();
-                element.addFront(number);
+                myList.addFront(number);
                 totalTime += getCounter();
                 break;
             case 1:
                 name = "ADD REAR";
                 startCounter();
-                element.addRear(number);
+                myList.addRear(number);
                 totalTime += getCounter();
                 break;
             case 2:
                 name = "ADD POS";
                 startCounter();
-                element.addPos(position, number);
+                myList.addPos(position, number);
                 totalTime += getCounter();
                 break;
             case 3:
                 name = "DELETE FRONT";
                 startCounter();
-                element.deleteFront();
+                myList.deleteFront();
                 totalTime += getCounter();
                 break;
             case 4:
                 name = "DELETE REAR";
                 startCounter();
-                element.deleteRear();
+                myList.deleteRear();
                 totalTime += getCounter();
                 break;
             case 5:
                 name = "DELETE ON POS";
                 startCounter();
-                element.deletePos(position);
+                myList.deletePos(position);
                 totalTime += getCounter();
                 break;
             case 6:
                 name = "FIND FIRST";
                 startCounter();
-                element.findFirst(number);
+                myList.findFirst(number);
                 totalTime += getCounter();
                 break;
         }
+        myList.deleteAll();
     }
 
     output(name, totalTime, howManyRepetitions, myFileManager);
@@ -338,68 +342,79 @@ void Interface::tArray() {
 
     std::string whatToDo;
     do {
-        std::cout << "insert command what to do" << std::endl;
+        std::cout << "insert what to do" << std::endl;
+        std::cout << "[0] add front" << std::endl;
+        std::cout << "[1] add rear" << std::endl;
+        std::cout << "[2] add on position" << std::endl;
+        std::cout << "[3] delete front" << std::endl;
+        std::cout << "[4] delete rear" << std::endl;
+        std::cout << "[5] delete on position" << std::endl;
+        std::cout << "[6] find first" << std::endl;
+        std::cout << "[7] swap" << std::endl;
+        std::cout << "[8] get" << std::endl;
+        std::cout << "[9] get size" << std::endl;
+        std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
 
-        if (whatToDo == "addFront") {
+        if ((whatToDo == "add front") || (whatToDo == "0")) {
             int number = myInput();
             if (number != NULL)
                 myArray.addFront(number);
             myArray.show();
         }
-        if (whatToDo == "addRear") {
+        if ((whatToDo == "add front") || (whatToDo == "1")) {
             int number = myInput();
             if (number != NULL)
                 myArray.addRear(number);
             myArray.show();
         }
-        if (whatToDo == "addOnPosition") {
+        if ((whatToDo == "add on position") || (whatToDo == "2")) {
             int number = myInput();
             int position = myInput();
             if ((number != NULL) && (number != NULL))
                 myArray.addOnPos(position, number);
             myArray.show();
         }
-        if (whatToDo == "deleteFront") {
+        if ((whatToDo == "delete front") || (whatToDo == "3")) {
             myArray.deleteFront();
             myArray.show();
         }
-        if (whatToDo == "deleteRear") {
+        if ((whatToDo == "delete rear") || (whatToDo == "4")) {
             myArray.deleteRear();
             myArray.show();
         }
-        if (whatToDo == "deleteOnPosition") {
+        if ((whatToDo == "delete on position") || (whatToDo == "5")) {
             int position = myInput();
             if (position != NULL)
                 myArray.deleteOnPos(position);
             myArray.show();
         }
 
-        if (whatToDo == "findFirst") {
+        if ((whatToDo == "find first") || (whatToDo == "6")) {
             int number = myInput();
             if (number != NULL)
                 myArray.findFirst(number);
             myArray.show();
         }
-        if (whatToDo == "swap") {
+        if ((whatToDo == "swap") || (whatToDo == "7")) {
             int pos1 = myInput();
             int pos2 = myInput();
             if ((pos1 != NULL) && (pos2 != NULL))
                 myArray.swap(pos1, pos2);
             myArray.show();
         }
-        if (whatToDo == "get") {
+        if ((whatToDo == "get") || (whatToDo == "8")) {
             int position = myInput();
             if (position != NULL)
                 myArray.get(position);
             myArray.show();
         }
-        if (whatToDo == "getSize") {
+        if ((whatToDo == "get size") || (whatToDo == "9")) {
             std::cout << myArray.getSize() << std::endl;
             myArray.show();
         }
 
-    } while (whatToDo != "e");
+    } while ((whatToDo != "exit") || (whatToDo == "e"));
 }
 
 void Interface::tBinary() {
@@ -408,37 +423,41 @@ void Interface::tBinary() {
 
     std::string whatToDo;
     do {
-        std::cout << "insert command what to do" << std::endl;
+        std::cout << "insert what to do" << std::endl;
+        std::cout << "[0] add" << std::endl;
+        std::cout << "[1] delete rear" << std::endl;
+        std::cout << "[2] delete root" << std::endl;
+        std::cout << "[3] regain hip attributes" << std::endl;
+        std::cout << "[4] find first" << std::endl;
+        std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
 
-        if (whatToDo == "add") {
+        if ((whatToDo == "add") || (whatToDo == "0")) {
             int number = myInput();
             if (number != NULL)
                 myBinaryTree.add(number);
             myBinaryTree.show();
         }
-        if (whatToDo == "deleteLast") {
+        if ((whatToDo == "delete last") || (whatToDo == "1")) {
             myBinaryTree.deleteLast();
             myBinaryTree.show();
         }
-        if (whatToDo == "deleteRoot") {
-            if (whatToDo == "deleteLast") {
-                myBinaryTree.deleteRoot();
-                myBinaryTree.show();
-            }
-            if (whatToDo == "regainHipAttributes") {
-                myBinaryTree.regainHipAttributes();
-                myBinaryTree.show();
-            }
-            if (whatToDo == "findFirst") {
-                int number = myInput();
-                if (number != NULL)
-                    myBinaryTree.findFirst(number);
-                myBinaryTree.show();
-            }
+        if ((whatToDo == "delete root") || (whatToDo == "2")) {
+            myBinaryTree.deleteRoot();
+            myBinaryTree.show();
+        }
+        if ((whatToDo == "regain hip attributes") || (whatToDo == "3")) {
+            myBinaryTree.regainHipAttributes();
+            myBinaryTree.show();
+        }
+        if ((whatToDo == "find first") || (whatToDo == "4")) {
+            int number = myInput();
+            if (number != NULL)
+                myBinaryTree.findFirst(number);
+            myBinaryTree.show();
         }
 
-    } while (whatToDo != "e");
+    } while ((whatToDo != "exit") || (whatToDo == "e"));
 }
 
 void Interface::tList() {
@@ -446,64 +465,75 @@ void Interface::tList() {
 
     std::string whatToDo;
     do {
-        std::cout << "insert command what to do" << std::endl;
+        std::cout << "insert what to do" << std::endl;
+        std::cout << "[0] add rear" << std::endl;
+        std::cout << "[1] add front" << std::endl;
+        std::cout << "[2] add on position" << std::endl;
+        std::cout << "[3] delete rear" << std::endl;
+        std::cout << "[4] delete front" << std::endl;
+        std::cout << "[5] delete on position" << std::endl;
+        std::cout << "[6] get head" << std::endl;
+        std::cout << "[7] get element" << std::endl;
+        std::cout << "[8] find first" << std::endl;
+        std::cout << "[9] get size" << std::endl;
+        std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
 
-        if (whatToDo == "addRear") {
+        if ((whatToDo == "add rear") || (whatToDo == "6")) {
             int number = myInput();
             if (number != NULL)
                 myList.addRear(number);
             myList.show();
         }
-        if (whatToDo == "addFront") {
+        if ((whatToDo == "add front") || (whatToDo == "6")) {
             int number = myInput();
             if (number != NULL)
                 myList.addFront(number);
             myList.show();
         }
-        if (whatToDo == "addPosition") {
+        if ((whatToDo == "add on position") || (whatToDo == "6")) {
             int number = myInput();
             int position = myInput();
             if ((number != NULL) && (number != NULL))
                 myList.addPos(position, number);
             myList.show();
         }
-        if (whatToDo == "deleteRear") {
+        if ((whatToDo == "delete rear") || (whatToDo == "6")) {
             myList.deleteRear();
             myList.show();
         }
-        if (whatToDo == "deleteFront") {
+        if ((whatToDo == "delete front") || (whatToDo == "6")) {
             myList.deleteFront();
             myList.show();
         }
-        if (whatToDo == "deletePosition") {
+        if ((whatToDo == "delete on position") || (whatToDo == "6")) {
             int position = myInput();
             if (position != NULL)
                 myList.deletePos(position);
             myList.show();
         }
-        if (whatToDo == "getHead") {
+        if ((whatToDo == "get head") || (whatToDo == "6")) {
             std::cout << myList.getHead() << std::endl;
             myList.show();
         }
-        if (whatToDo == "getElement") {
+        if ((whatToDo == "get element") || (whatToDo == "6")) {
             int position = myInput();
             if (position != NULL)
                 std::cout << myList.getElement(position) << std::endl;
             myList.show();
         }
-        if (whatToDo == "findFirst") {
+        if ((whatToDo == "find first") || (whatToDo == "6")) {
             int number = myInput();
             if (number != NULL)
                 std::cout << myList.findFirst(number) << std::endl;
             myList.show();
         }
-        if (whatToDo == "getSize") {
+        if ((whatToDo == "get size") || (whatToDo == "6")) {
             std::cout << myList.getSize() << std::endl;
             myList.show();
         }
 
-    } while (whatToDo != "e");
+    } while ((whatToDo != "exit") || (whatToDo == "e"));
 }
 
 void Interface::tRedBlack() {
@@ -531,8 +561,8 @@ int Interface::myInput() {
 }
 
 void Interface::output(std::string name, double totalTime, int howMany, FileManagement *myFileManager) {
-    std::cout << name << std::endl;
-    std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
+    //std::cout << name << std::endl;
+    //std::cout << "[average per operation: " << totalTime / howMany << " nanoseconds]" << std::endl;
     (*myFileManager).writeNum(totalTime / howMany);
 
 }

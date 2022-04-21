@@ -42,3 +42,7 @@ void MyBinaryTree::show() {
 int MyBinaryTree::findFirst(int number) {
     return myTree->findFirst(number);
 }
+
+void MyBinaryTree::deleteAll() {
+    myTree->deleteAll();
+}

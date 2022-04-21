@@ -13,21 +13,8 @@ void FileManagement::openFile(char inputOutput, std::string fileName) {
     }
 }
 
-void FileManagement::randNumbersToFile(int size) {
-    for(int i = 0; i < size; i++){
-        file << (rand() % 200 - 100);
-        file << std::endl;
-    }
-}
-
 void FileManagement::closeFile() {
     file.close();
-}
-
-int FileManagement::getLine() {
-    std::string strNumber;
-    file >> strNumber;
-    return stoi(strNumber);
 }
 
 void FileManagement::writeNum(double toWrite) {

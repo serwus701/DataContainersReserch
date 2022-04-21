@@ -27,6 +27,8 @@ public:
     int get(int);
 
     void show();
+
+    void deleteAll();
 };
 
 
