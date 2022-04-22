@@ -41,6 +41,8 @@ public:
 
     int show();
 
+    void readFromFile(std::string);
+
     void deleteAll();
 };
 

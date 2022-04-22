@@ -10,6 +10,7 @@ class FileManagement {
 private:
     std::fstream file;
 public:
+    int getLine();
     void openFile(char, std::string);
     void closeFile();
     void writeNum(double);

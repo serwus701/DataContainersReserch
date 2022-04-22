@@ -27,6 +27,7 @@ public:
     int get(int);
 
     void show();
+    void readFromFile(std::string);
 
     void deleteAll();
 };

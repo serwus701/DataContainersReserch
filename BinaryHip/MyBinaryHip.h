@@ -2,12 +2,12 @@
 // Created by serwu on 14.04.2022.
 //
 
-#ifndef MAIN_CPP_MYBINARYTREE_H
-#define MAIN_CPP_MYBINARYTREE_H
+#ifndef MAIN_CPP_MYBINARYHIP_H
+#define MAIN_CPP_MYBINARYHIP_H
 
 #include "../Array/MyArray.h"
 
-class MyBinaryTree {
+class MyBinaryHip {
 private:
     MyArray *myTree = new MyArray();
     int size = 0;
@@ -26,7 +26,9 @@ public:
     int findFirst(int);
 
     void deleteAll();
+
+    void readFromFile(std::string);
 };
 
 
-#endif //MAIN_CPP_MYBINARYTREE_H
+#endif //MAIN_CPP_MYBINARYHIP_H

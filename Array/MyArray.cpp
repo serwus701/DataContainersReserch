@@ -4,13 +4,14 @@
 
 #include <iostream>
 #include "MyArray.h"
+#include "../FileManagement.h"
 
 
 void MyArray::addRear(int element) {
 //creating a new functionManager, rewriting each element with pointers and adding last element
     size++;
     int *newTab = new int[size];
-    int * toDelete = tabPointer;
+    int *toDelete = tabPointer;
 
     if (size > 0) {
         int *tempPointer = newTab;
@@ -29,11 +30,11 @@ void MyArray::addRear(int element) {
 void MyArray::addFront(int element) {
     //creating a new functionManager, adding new first element and rewriting each element with pointers until the end
     size++;
-    int * newTab = new int[size];
-    int * toDelete = tabPointer;
+    int *newTab = new int[size];
+    int *toDelete = tabPointer;
 
     if (size > 1) {
-        int * tempPointer = newTab;
+        int *tempPointer = newTab;
         tempPointer++;
         for (int i = 0; i < size - 1; i++) {
             *tempPointer = *tabPointer;
@@ -49,10 +50,20 @@ void MyArray::addFront(int element) {
 
 void MyArray::addOnPos(int position, int container) {
 //creating a new functionManager, rewriting each element until certain position, then inserting extra one and rewriting until the end
-    if ((position < size) && (position > -1)) {
+
+    if (position == 0) {
+        addFront(container);
+        return;
+    }
+    if (position == size - 1) {
+        addRear(container);
+        return;
+    }
+
+    if ((position < size - 1) && (position > 0)) {
         size++;
         int *newTab = new int[size];
-        int * toDelete = tabPointer;
+        int *toDelete = tabPointer;
 
         int *tempPointer = newTab;
         for (int i = 0; i < position; i++) {
@@ -80,7 +91,7 @@ void MyArray::deleteRear() {
     if (size > 0) {
         size--;
         int *newTab = new int[size];
-        int * toDelete = tabPointer;
+        int *toDelete = tabPointer;
         int *tempPointer = newTab;
 
         for (int i = 0; i < size; i++) {
@@ -98,9 +109,9 @@ void MyArray::deleteFront() {
 //creating a new functionManager, skipping first one, and rewriting each element with pointers
     if (size > 0) {
         size--;
-        int * newTab = new int[size];
-        int * toDelete = tabPointer;
-        int * tempPointer = newTab;
+        int *newTab = new int[size];
+        int *toDelete = tabPointer;
+        int *tempPointer = newTab;
         tabPointer++;
         for (int i = 0; i < size; i++) {
             *tempPointer = *tabPointer;
@@ -116,7 +127,7 @@ void MyArray::deleteOnPos(int position) {
 //creating a new functionManager, rewriting each element until certain position, then skipping one position and rewriting until the end
     if ((position < size) && (position > -1)) {
         int *newTab = new int[size - 1];
-        int * toDelete = tabPointer;
+        int *toDelete = tabPointer;
         int *tempPointer = newTab;
         for (int i = 0; i < position; i++) {
             *tempPointer = *tabPointer;
@@ -158,9 +169,8 @@ int MyArray::findFirst(int value) {
 //inspecting every element until finding correct one
     int *tempPointer = tabPointer;
     for (int i = 0; i < size; i++) {
-        if (*tempPointer == value)
+        if (*(tempPointer + i) == value)
             return i;
-        tempPointer++;
     }
     return -1;//returning -1 if there is no such element
 }
@@ -184,6 +194,20 @@ void MyArray::show() {
 }
 
 void MyArray::deleteAll() {
-    if(tabPointer != nullptr)
+    //deleting entire container
+    if (tabPointer != nullptr)
         delete[] tabPointer;
+}
+
+void MyArray::readFromFile(std::string fileName) {
+    //opening file, reading size, reading and adding elements from file
+    FileManagement myFileManager;
+    myFileManager.openFile('i', fileName);
+    int howManyElements = myFileManager.getLine();
+    for (int i = 0; i < howManyElements; i++) {
+        int readFromFile;
+        readFromFile = myFileManager.getLine();
+        addRear(readFromFile);
+    }
+    myFileManager.closeFile();
 }

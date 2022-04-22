@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "MyList.h"
+#include "../FileManagement.h"
 
 void MyList::addPrimalElement(ListElement *primalElement) {
     //used in case of creating first element
@@ -75,7 +76,8 @@ ListElement *MyList::getFullElement(int position) {
 }
 
 void MyList::deletePos(int position) {
-    if ((position > -1) && (position < size) && (size > 0)) {
+    //iterate trough list until reaching given position. if so deletes it and restores pointers
+    if ((position > 0) && (position < size - 1) && (size > 0)) {
 
         if (position == size - 1) {
             deleteRear();
@@ -102,9 +104,14 @@ void MyList::deletePos(int position) {
         size--;
 
     }
+    if (position == 0 && size > 0)
+        deleteFront();
+    else if (position == size - 1 && size > 0)
+        deleteRear();
 }
 
 int MyList::getElement(int position) {
+    //iterating trough entire list until reaching given position. returnes object on that position
     ListElement *tempPointer = getFullElement(position);
     if (tempPointer != nullptr)
         return tempPointer->getContainer();
@@ -113,12 +120,21 @@ int MyList::getElement(int position) {
 }
 
 void MyList::addPos(int position, int element) {
+    //iterate trough list until reaching given position. if so adds there new element and restores pointers
     ListElement *tempPointer = getFullElement(position);
+    if (position == size - 1) {
+        addRear(element);
+        return;
+    }
+    if (position == 0) {
+        addFront(element);
+        return;
+    }
 
     if (tempPointer != nullptr) {
         auto tempElement = new ListElement;
 
-        if(size == 0){
+        if (size == 0) {
             addPrimalElement(tempElement);
             tempElement->setContainer(element);
             return;
@@ -132,7 +148,13 @@ void MyList::addPos(int position, int element) {
 }
 
 void MyList::deleteRear() {
-    if(size > 0){
+    //deletes rear object and restores pointers
+    if (size == 1) {
+        delete tail;
+        tail = nullptr;
+        head = nullptr;
+        size--;
+    } else if (size > 0) {
         ListElement *temp = tail;
         tail = tail->getPrevious();
         tail->setNext(nullptr);
@@ -142,7 +164,13 @@ void MyList::deleteRear() {
 }
 
 void MyList::deleteFront() {
-    if(size > 0){
+    //deletes front object and restores pointers
+    if (size == 1) {
+        delete tail;
+        tail = nullptr;
+        head = nullptr;
+        size--;
+    } else if (size > 0) {
         ListElement *temp = head;
         head = head->getNext();
         head->setPrevious(nullptr);
@@ -152,7 +180,8 @@ void MyList::deleteFront() {
 }
 
 int MyList::show() {
-    if(size > 0) {
+    //iterates trough array and reads its containers
+    if (size > 0) {
         ListElement *iterator = head;
         while (iterator->getNext() != nullptr) {
             std::cout << iterator->getContainer() << " ";
@@ -164,6 +193,7 @@ int MyList::show() {
 }
 
 int MyList::findFirst(int number) {
+    //iterates trough array until finding container matching given value
     ListElement *iterator = head;
     int i = 0;
     while (iterator->getNext() != nullptr) {
@@ -176,13 +206,27 @@ int MyList::findFirst(int number) {
 }
 
 void MyList::deleteAll() {
-    ListElement * tempPtr = head;
-    if(tempPtr != nullptr){
-        while (tempPtr->getNext() != nullptr){
+    //iterates trough list and deletes every element
+    ListElement *tempPtr = head;
+    if (tempPtr != nullptr) {
+        while (tempPtr->getNext() != nullptr) {
             tempPtr = tempPtr->getNext();
             delete tempPtr->getPrevious();
         }
         delete tempPtr;
     }
+}
+
+void MyList::readFromFile(std::string fileName) {
+    //opening file, reading size, reading and adding elements from file
+    FileManagement myFileManager;
+    myFileManager.openFile('i', fileName);
+    int howManyElements = myFileManager.getLine();
+    for (int i = 0; i < howManyElements; i++) {
+        int readFromFile;
+        readFromFile = myFileManager.getLine();
+        addRear(readFromFile);
+    }
+    myFileManager.closeFile();
 }
 

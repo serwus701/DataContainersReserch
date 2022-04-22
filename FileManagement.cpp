@@ -6,9 +6,10 @@
 #include "Interface.h"
 
 void FileManagement::openFile(char inputOutput, std::string fileName) {
-    if(inputOutput == 'i'){
+    //opening file in different modes
+    if (inputOutput == 'i') {
         file.open(fileName + ".txt", std::ios::in);
-    } else{
+    } else {
         file.open(fileName + ".txt", std::ios::app);
     }
 }
@@ -23,4 +24,13 @@ void FileManagement::writeNum(double toWrite) {
 
 void FileManagement::writeStr(std::string toWrite) {
     file << toWrite;
+}
+
+
+int FileManagement::getLine() {
+    //reading from the file
+    std::string strRead;
+    std::getline(file, strRead);
+    int intRead = std::stoi(strRead);
+    return intRead;
 }

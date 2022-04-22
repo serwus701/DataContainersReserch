@@ -10,7 +10,7 @@
 #include <string>
 #include "List//MyList.h"
 #include "Array/MyArray.h"
-#include "BinaryTree/MyBinaryTree.h"
+#include "BinaryHip/MyBinaryHip.h"
 #include "FileManagement.h"
 
 
