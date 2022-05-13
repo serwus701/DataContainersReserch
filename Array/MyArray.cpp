@@ -186,6 +186,8 @@ int MyArray::getSize() {
 void MyArray::show() {
     //inspecting and writing every element
     int *tempPointer = tabPointer;
+
+    std::cout << "Array: ";
     for (int i = 0; i < size; i++) {
         std::cout << *tempPointer << " ";
         tempPointer++;
@@ -210,4 +212,8 @@ void MyArray::readFromFile(std::string fileName) {
         addRear(readFromFile);
     }
     myFileManager.closeFile();
+}
+
+int MyArray::getFromRear(int position) {
+    return *(tabPointer + size - 1 - position);
 }

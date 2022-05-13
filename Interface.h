@@ -10,26 +10,33 @@
 #include <string>
 #include "List//MyList.h"
 #include "Array/MyArray.h"
-#include "BinaryHip/MyBinaryHip.h"
+#include "BinaryHeap/MyBinaryHeap.h"
 #include "FileManagement.h"
 
 
 class Interface {
 private:
-    static void tArray();
-    static void tBinary();
-    static void tList();
-    static void tRedBlack();
+    static void testArray();
+
+    static void testBinary();
+
+    static void testList();
+
+    static void testRedBlack();
 
     static int myInput();
+
     static void output(std::string, double, int, FileManagement *);
 
     static void simulation();
+
     static void test();
 
-    static void eachArrayFunction(int , int , int , FileManagement*);
-    static void eachBinaryFunction(int , int , int , FileManagement*);
-    static void eachListFunction(int , int , int , FileManagement*);
+    static void eachArrayFunction(int, int, int, FileManagement *);
+
+    static void eachBinaryFunction(int, int, int, FileManagement *);
+
+    static void eachListFunction(int, int, int, FileManagement *);
 
 public:
     static void run();

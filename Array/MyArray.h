@@ -12,21 +12,29 @@ private:
     int *tabPointer = nullptr;
 public:
     void addFront(int);
+
     void addRear(int);
+
     void addOnPos(int, int);
 
     void deleteFront();
+
     void deleteRear();
+
     void deleteOnPos(int);
 
     void swap(int, int);
+
     int findFirst(int);
 
     int getSize();
 
     int get(int);
 
+    int getFromRear(int);
+
     void show();
+
     void readFromFile(std::string);
 
     void deleteAll();

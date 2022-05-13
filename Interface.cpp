@@ -8,7 +8,7 @@
 #include <profileapi.h>
 
 #include "Interface.h"
-#include "BinaryHip/MyBinaryHip.h"
+#include "BinaryHeap/MyBinaryHeap.h"
 
 double PCFreq = 0.0;
 __int64 CounterStart = 0;
@@ -217,7 +217,7 @@ Interface::eachBinaryFunction(int method, int howManyRepetitions, int howManyEle
     (*myFileManager).openFile('o', "binaryOutput");
 
     for (int i = 0; i < howManyRepetitions; i++) {
-        MyBinaryHip myBinaryTree;
+        MyBinaryHeap myBinaryTree;
 
         for (int each: randNumbersVector) {
             myBinaryTree.add(each);
@@ -293,7 +293,7 @@ Interface::eachListFunction(int method, int howManyRepetitions, int howManyEleme
             case 2:
                 name = "ADD POS";
                 startCounter();
-                myList.addPos(position, number);
+                myList.addOnPosition(position, number);
                 totalTime += getCounter();
                 break;
             case 3:
@@ -337,22 +337,22 @@ void Interface::test() {
         std::cin >> type;
         switch (type) {
             case 'a':
-                tArray();
+                testArray();
                 break;
             case 'l':
-                tList();
+                testList();
                 break;
             case 'b':
-                tBinary();
+                testBinary();
                 break;
             case 'r':
-                tRedBlack();
+                testRedBlack();
                 break;
         }
     }
 }
 
-void Interface::tArray() {
+void Interface::testArray() {
     //function menu
     //you can choose your function here
 
@@ -371,26 +371,31 @@ void Interface::tArray() {
         std::cout << "[7] swap" << std::endl;
         std::cout << "[8] get" << std::endl;
         std::cout << "[9] get size" << std::endl;
-        std::cout << "[10] show" << std::endl;
+        std::cout << "[s] show" << std::endl;
         std::cout << "[r] read from file" << std::endl;
         std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
         system("cls");
+        myArray.show();
 
         if ((whatToDo == "add front") || (whatToDo == "0")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 myArray.addFront(number);
             myArray.show();
         }
         if ((whatToDo == "add rear") || (whatToDo == "1")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 myArray.addRear(number);
             myArray.show();
         }
         if ((whatToDo == "add on position") || (whatToDo == "2")) {
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if ((position != INT64_MAX) && (number != INT64_MAX))
                 myArray.addOnPos(position, number);
@@ -405,6 +410,7 @@ void Interface::tArray() {
             myArray.show();
         }
         if ((whatToDo == "delete on position") || (whatToDo == "5")) {
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
             if (position != INT64_MAX)
                 myArray.deleteOnPos(position);
@@ -412,32 +418,30 @@ void Interface::tArray() {
         }
 
         if ((whatToDo == "find first") || (whatToDo == "6")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 std::cout << myArray.findFirst(number) << std::endl;
-            myArray.show();
         }
         if ((whatToDo == "swap") || (whatToDo == "7")) {
+            std::cout << "Insert position" << std::endl;
             int pos1 = myInput();
+            std::cout << "Insert position" << std::endl;
             int pos2 = myInput();
             if ((pos1 != INT64_MAX) && (pos2 != INT64_MAX))
                 myArray.swap(pos1, pos2);
             myArray.show();
         }
         if ((whatToDo == "get") || (whatToDo == "8")) {
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
             if (position != INT64_MAX)
                 std::cout << myArray.get(position) << std::endl;
-            myArray.show();
         }
         if ((whatToDo == "get size") || (whatToDo == "9")) {
             std::cout << myArray.getSize() << std::endl;
-            myArray.show();
         }
-        if ((whatToDo == "show") || (whatToDo == "10")) {
-            int number = myInput();
-            if (number != INT64_MAX)
-                myArray.show();
+        if ((whatToDo == "show") || (whatToDo == "s")) { ;
             myArray.show();
         }
         if ((whatToDo == "read from file") || (whatToDo == "r")) {
@@ -451,10 +455,10 @@ void Interface::tArray() {
     } while ((whatToDo != "exit") && (whatToDo != "e"));
 }
 
-void Interface::tBinary() {
-    //similarly to tArray
+void Interface::testBinary() {
+    //similarly to testArray
 
-    MyBinaryHip myBinaryTree;
+    MyBinaryHeap myBinaryTree;
 
     std::string whatToDo;
     do {
@@ -464,23 +468,30 @@ void Interface::tBinary() {
         std::cout << "[2] delete root" << std::endl;
         std::cout << "[3] regain hip attributes" << std::endl;
         std::cout << "[4] find first" << std::endl;
+        std::cout << "[s] show" << std::endl;
         std::cout << "[r] read from file" << std::endl;
         std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
         system("cls");
+        myBinaryTree.show();
 
         if ((whatToDo == "add") || (whatToDo == "0")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT64_MAX) {
                 myBinaryTree.add(number);
+                myBinaryTree.regainHipAttributes();
+            }
             myBinaryTree.show();
         }
         if ((whatToDo == "delete last") || (whatToDo == "1")) {
             myBinaryTree.deleteLast();
+            myBinaryTree.regainHipAttributes();
             myBinaryTree.show();
         }
         if ((whatToDo == "delete root") || (whatToDo == "2")) {
             myBinaryTree.deleteRoot();
+            myBinaryTree.regainHipAttributes();
             myBinaryTree.show();
         }
         if ((whatToDo == "regain hip attributes") || (whatToDo == "3")) {
@@ -488,9 +499,12 @@ void Interface::tBinary() {
             myBinaryTree.show();
         }
         if ((whatToDo == "find first") || (whatToDo == "4")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 std::cout << myBinaryTree.findFirst(number) << std::endl;
+        }
+        if ((whatToDo == "show") || (whatToDo == "s")) {
             myBinaryTree.show();
         }
         if ((whatToDo == "read from file") || (whatToDo == "r")) {
@@ -498,14 +512,15 @@ void Interface::tBinary() {
             std::string fileName;
             std::cin >> fileName;
             myBinaryTree.readFromFile(fileName);
+            myBinaryTree.regainHipAttributes();
             myBinaryTree.show();
         }
 
     } while ((whatToDo != "exit") && (whatToDo != "e"));
 }
 
-void Interface::tList() {
-    //similarly to tArray
+void Interface::testList() {
+    //similarly to testArray
 
     MyList myList;
 
@@ -522,29 +537,34 @@ void Interface::tList() {
         std::cout << "[7] get element" << std::endl;
         std::cout << "[8] find first" << std::endl;
         std::cout << "[9] get size" << std::endl;
-        std::cout << "[10] show" << std::endl;
+        std::cout << "[s] show" << std::endl;
         std::cout << "[r] read from file" << std::endl;
         std::cout << "[e] exit" << std::endl;
         std::cin >> whatToDo;
         system("cls");
+        myList.show();
 
         if ((whatToDo == "add rear") || (whatToDo == "0")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 myList.addRear(number);
             myList.show();
         }
         if ((whatToDo == "add front") || (whatToDo == "1")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 myList.addFront(number);
             myList.show();
         }
         if ((whatToDo == "add on position") || (whatToDo == "2")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
             if ((position != INT64_MAX) && (number != INT64_MAX))
-                myList.addPos(position, number);
+                myList.addOnPosition(position, number);
             myList.show();
         }
         if ((whatToDo == "delete rear") || (whatToDo == "3")) {
@@ -556,6 +576,7 @@ void Interface::tList() {
             myList.show();
         }
         if ((whatToDo == "delete on position") || (whatToDo == "5")) {
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
             if (position != INT64_MAX)
                 myList.deletePos(position);
@@ -563,23 +584,21 @@ void Interface::tList() {
         }
         if ((whatToDo == "get head") || (whatToDo == "6")) {
             std::cout << myList.getHead() << std::endl;
-            myList.show();
         }
         if ((whatToDo == "get element") || (whatToDo == "7")) {
+            std::cout << "Insert position" << std::endl;
             int position = myInput();
             if (position != INT64_MAX)
-                std::cout << myList.getElement(position) << std::endl;
-            myList.show();
+                std::cout << myList.getContainer(position) << std::endl;
         }
         if ((whatToDo == "find first") || (whatToDo == "8")) {
+            std::cout << "Insert number" << std::endl;
             int number = myInput();
             if (number != INT64_MAX)
                 std::cout << myList.findFirst(number) << std::endl;
-            myList.show();
         }
         if ((whatToDo == "get size") || (whatToDo == "9")) {
             std::cout << myList.getSize() << std::endl;
-            myList.show();
         }
         if ((whatToDo == "show") || (whatToDo == "10")) {
             std::cout << myList.show() << std::endl;
@@ -597,7 +616,7 @@ void Interface::tList() {
     }
 }
 
-void Interface::tRedBlack() {
+void Interface::testRedBlack() {
 
 }
 
@@ -614,7 +633,6 @@ bool Interface::isNumber(std::string potentialNumber) {
 int Interface::myInput() {
     //manages input
     //returns specific value if input is not a number
-    std::cout << "insert number" << std::endl;
     std::string number;
     std::cin >> number;
 

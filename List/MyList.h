@@ -14,7 +14,7 @@ private:
     ListElement *head;
     ListElement *tail;
 
-    ListElement *getFullElement(int);
+    ListElement *getElementPtr(int);
 
     void addPrimalElement(ListElement *);
 
@@ -23,7 +23,7 @@ public:
 
     void addFront(int);
 
-    void addPos(int, int);
+    void addOnPosition(int, int);
 
     void deleteRear();
 
@@ -35,7 +35,7 @@ public:
 
     int getHead();
 
-    int getElement(int);
+    int getContainer(int);
 
     int findFirst(int);
 

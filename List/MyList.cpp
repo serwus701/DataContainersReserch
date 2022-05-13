@@ -61,7 +61,7 @@ int MyList::getSize() {
     return size;
 }
 
-ListElement *MyList::getFullElement(int position) {
+ListElement *MyList::getElementPtr(int position) {
     //used to get pointer of an element
     if (position < 0)
         return nullptr;
@@ -110,19 +110,18 @@ void MyList::deletePos(int position) {
         deleteRear();
 }
 
-int MyList::getElement(int position) {
+int MyList::getContainer(int position) {
     //iterating trough entire list until reaching given position. returnes object on that position
-    ListElement *tempPointer = getFullElement(position);
+    ListElement *tempPointer = getElementPtr(position);
     if (tempPointer != nullptr)
         return tempPointer->getContainer();
     else
         return NULL;
 }
 
-void MyList::addPos(int position, int element) {
+void MyList::addOnPosition(int position, int element) {
     //iterate trough list until reaching given position. if so adds there new element and restores pointers
-    ListElement *tempPointer = getFullElement(position);
-    if (position == size - 1) {
+    if (position == size) {
         addRear(element);
         return;
     }
@@ -131,18 +130,17 @@ void MyList::addPos(int position, int element) {
         return;
     }
 
-    if (tempPointer != nullptr) {
-        auto tempElement = new ListElement;
+    ListElement *currentPositionPtr = getElementPtr(position);
 
-        if (size == 0) {
-            addPrimalElement(tempElement);
-            tempElement->setContainer(element);
-            return;
-        }
+    if (currentPositionPtr != nullptr) {
+        auto newElement = new ListElement;
 
-        tempElement->setNext(tempPointer->getNext());
-        tempElement->setPrevious(tempPointer->getPrevious());
-        tempElement->setContainer(element);
+        newElement->setNext(currentPositionPtr);
+        newElement->setPrevious(currentPositionPtr->getPrevious());
+        newElement->setContainer(element);
+
+        currentPositionPtr->setPrevious(newElement);
+        newElement->getPrevious()->setNext(newElement);
         size++;
     }
 }
@@ -183,6 +181,7 @@ int MyList::show() {
     //iterates trough array and reads its containers
     if (size > 0) {
         ListElement *iterator = head;
+        std::cout << "List: ";
         while (iterator->getNext() != nullptr) {
             std::cout << iterator->getContainer() << " ";
             iterator = iterator->getNext();

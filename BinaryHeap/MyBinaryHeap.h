@@ -2,15 +2,19 @@
 // Created by serwu on 14.04.2022.
 //
 
-#ifndef MAIN_CPP_MYBINARYHIP_H
-#define MAIN_CPP_MYBINARYHIP_H
+#ifndef MAIN_CPP_MYBINARYHEAP_H
+#define MAIN_CPP_MYBINARYHEAP_H
 
 #include "../Array/MyArray.h"
 
-class MyBinaryHip {
+class MyBinaryHeap {
 private:
-    MyArray *myTree = new MyArray();
+    MyArray *body = new MyArray();
     int size = 0;
+
+    int getDepth();
+
+    void heapify(int);
 
 public:
     void add(int);
@@ -31,4 +35,4 @@ public:
 };
 
 
-#endif //MAIN_CPP_MYBINARYHIP_H
+#endif //MAIN_CPP_MYBINARYHEAP_H
