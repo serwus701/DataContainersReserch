@@ -15,6 +15,14 @@ private:
     RBTElement * right;
 public:
     RBTElement(RBTElement *, RBTElement *, RBTElement *, int, char);
+    int getContainer();
+    RBTElement * getLeft();
+    RBTElement * getRight();
+    void setFather(RBTElement*);
+    void setLeft(RBTElement*);
+    void setRight(RBTElement*);
+    void setColour(char);
+    void setContainer(int);
 };
 
 

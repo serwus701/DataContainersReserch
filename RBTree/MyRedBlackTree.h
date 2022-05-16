@@ -13,7 +13,9 @@ private:
     RBTElement * root;
     RBTElement * guard;
 public:
-    void addElement();
+    MyRedBlackTree();
+    void addElement(int);
+    void deleteRoot();
 };
 
 

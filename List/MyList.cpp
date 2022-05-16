@@ -220,6 +220,7 @@ void MyList::readFromFile(std::string fileName) {
     //opening file, reading size, reading and adding elements from file
     FileManagement myFileManager;
     myFileManager.openFile('i', fileName);
+
     int howManyElements = myFileManager.getLine();
     for (int i = 0; i < howManyElements; i++) {
         int readFromFile;
