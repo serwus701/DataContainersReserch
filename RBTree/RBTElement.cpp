@@ -42,3 +42,11 @@ RBTElement *RBTElement::getLeft() {
 RBTElement *RBTElement::getRight() {
     return right;
 }
+
+char RBTElement::getUncleColour() {
+
+    if (father->father->right == father)
+        return father->father->left->colour;
+    else
+        return father->father->right->colour;
+}

@@ -12,9 +12,9 @@ private:
     MyArray *body = new MyArray();
     int size = 0;
 
-    int getDepth();
+    int getDepth();//returns amount of hip levels (excluding last, incomplete one)
 
-    void heapify(int);
+    void heapify(int);//recurrent algorithm used for regaining heap attributes
 
 public:
     void add(int);
@@ -23,15 +23,15 @@ public:
 
     void deleteRoot();
 
-    void regainHipAttributes();
+    void regainHeapAttributes();//structure regains heap attributes
 
     void show();
 
-    int findFirst(int);
+    int findFirst(int);//returns position of first element with equal to given value
 
-    void deleteAll();
+    void deleteAll();//delete structure
 
-    void readFromFile(std::string);
+    void readFromFile(std::string);//file input
 };
 
 

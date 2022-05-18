@@ -59,10 +59,8 @@ void Interface::run() {
 void Interface::simulation() {
     //menu that lets you choose data structure to simulate
     //you can also insert simulation data right below this comment
+    int howManyElements[] = {1000, 2000, 5000, 10000, 20000};
     int howManyRepetitions = 1000;
-    int totalHowManyElements = 10000;
-    int startHowManyElements = 1000;
-    int jump = 1000;
 
     FileManagement myFileManager;
 
@@ -74,7 +72,7 @@ void Interface::simulation() {
     int number, position;
     //loop responsible for having different structure sizes
 
-    for (; startHowManyElements < totalHowManyElements + 1; startHowManyElements += jump) {
+    for (int quantity: howManyElements) {
 
         int howManyFunctions;
         if (type == 'b')
@@ -82,18 +80,18 @@ void Interface::simulation() {
         else
             howManyFunctions = 7;
 
-        if ((howManyRepetitions > 1) && (totalHowManyElements > 1))
+        if (howManyRepetitions > 1)
             //loop responsible for having different functions
             for (int i = 0; i < howManyFunctions; i++) {
                 switch (type) {
                     case 'a':
-                        eachArrayFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
+                        eachArrayFunction(i, howManyRepetitions, quantity, &myFileManager);
                         break;
                     case 'l':
-                        eachListFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
+                        eachListFunction(i, howManyRepetitions, quantity, &myFileManager);
                         break;
                     case 'b':
-                        eachBinaryFunction(i, howManyRepetitions, startHowManyElements, &myFileManager);
+                        eachBinaryFunction(i, howManyRepetitions, quantity, &myFileManager);
                         break;
                     case 'r':
                         break;
@@ -222,7 +220,7 @@ Interface::eachBinaryFunction(int method, int howManyRepetitions, int howManyEle
         for (int each: randNumbersVector) {
             myBinaryTree.add(each);
         }
-        myBinaryTree.regainHipAttributes();
+        myBinaryTree.regainHeapAttributes();
 
         position = rand() % (howManyElements - 1) + 1;
         number = 1;
@@ -381,14 +379,14 @@ void Interface::testArray() {
         if ((whatToDo == "add front") || (whatToDo == "0")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 myArray.addFront(number);
             myArray.show();
         }
         if ((whatToDo == "add rear") || (whatToDo == "1")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 myArray.addRear(number);
             myArray.show();
         }
@@ -397,7 +395,7 @@ void Interface::testArray() {
             int position = myInput();
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if ((position != INT64_MAX) && (number != INT64_MAX))
+            if ((position != INT16_MAX) && (number != INT16_MAX))
                 myArray.addOnPos(position, number);
             myArray.show();
         }
@@ -412,7 +410,7 @@ void Interface::testArray() {
         if ((whatToDo == "delete on position") || (whatToDo == "5")) {
             std::cout << "Insert position" << std::endl;
             int position = myInput();
-            if (position != INT64_MAX)
+            if (position != INT16_MAX)
                 myArray.deleteOnPos(position);
             myArray.show();
         }
@@ -420,7 +418,7 @@ void Interface::testArray() {
         if ((whatToDo == "find first") || (whatToDo == "6")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 std::cout << myArray.findFirst(number) << std::endl;
         }
         if ((whatToDo == "swap") || (whatToDo == "7")) {
@@ -428,14 +426,14 @@ void Interface::testArray() {
             int pos1 = myInput();
             std::cout << "Insert position" << std::endl;
             int pos2 = myInput();
-            if ((pos1 != INT64_MAX) && (pos2 != INT64_MAX))
+            if ((pos1 != INT16_MAX) && (pos2 != INT16_MAX))
                 myArray.swap(pos1, pos2);
             myArray.show();
         }
         if ((whatToDo == "get") || (whatToDo == "8")) {
             std::cout << "Insert position" << std::endl;
             int position = myInput();
-            if (position != INT64_MAX)
+            if (position != INT16_MAX)
                 std::cout << myArray.get(position) << std::endl;
         }
         if ((whatToDo == "get size") || (whatToDo == "9")) {
@@ -478,30 +476,30 @@ void Interface::testBinary() {
         if ((whatToDo == "add") || (whatToDo == "0")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX) {
+            if (number != INT16_MAX) {
                 myBinaryTree.add(number);
-                myBinaryTree.regainHipAttributes();
+                myBinaryTree.regainHeapAttributes();
             }
             myBinaryTree.show();
         }
         if ((whatToDo == "delete last") || (whatToDo == "1")) {
             myBinaryTree.deleteLast();
-            myBinaryTree.regainHipAttributes();
+            myBinaryTree.regainHeapAttributes();
             myBinaryTree.show();
         }
         if ((whatToDo == "delete root") || (whatToDo == "2")) {
             myBinaryTree.deleteRoot();
-            myBinaryTree.regainHipAttributes();
+            myBinaryTree.regainHeapAttributes();
             myBinaryTree.show();
         }
         if ((whatToDo == "regain hip attributes") || (whatToDo == "3")) {
-            myBinaryTree.regainHipAttributes();
+            myBinaryTree.regainHeapAttributes();
             myBinaryTree.show();
         }
         if ((whatToDo == "find first") || (whatToDo == "4")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 std::cout << myBinaryTree.findFirst(number) << std::endl;
         }
         if ((whatToDo == "show") || (whatToDo == "s")) {
@@ -512,7 +510,7 @@ void Interface::testBinary() {
             std::string fileName;
             std::cin >> fileName;
             myBinaryTree.readFromFile(fileName);
-            myBinaryTree.regainHipAttributes();
+            myBinaryTree.regainHeapAttributes();
             myBinaryTree.show();
         }
 
@@ -547,14 +545,14 @@ void Interface::testList() {
         if ((whatToDo == "add rear") || (whatToDo == "0")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 myList.addRear(number);
             myList.show();
         }
         if ((whatToDo == "add front") || (whatToDo == "1")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 myList.addFront(number);
             myList.show();
         }
@@ -563,7 +561,7 @@ void Interface::testList() {
             int number = myInput();
             std::cout << "Insert position" << std::endl;
             int position = myInput();
-            if ((position != INT64_MAX) && (number != INT64_MAX))
+            if ((position != INT16_MAX) && (number != INT16_MAX))
                 myList.addOnPosition(position, number);
             myList.show();
         }
@@ -578,7 +576,7 @@ void Interface::testList() {
         if ((whatToDo == "delete on position") || (whatToDo == "5")) {
             std::cout << "Insert position" << std::endl;
             int position = myInput();
-            if (position != INT64_MAX)
+            if (position != INT16_MAX)
                 myList.deletePos(position);
             myList.show();
         }
@@ -588,13 +586,13 @@ void Interface::testList() {
         if ((whatToDo == "get element") || (whatToDo == "7")) {
             std::cout << "Insert position" << std::endl;
             int position = myInput();
-            if (position != INT64_MAX)
+            if (position != INT16_MAX)
                 std::cout << myList.getContainer(position) << std::endl;
         }
         if ((whatToDo == "find first") || (whatToDo == "8")) {
             std::cout << "Insert number" << std::endl;
             int number = myInput();
-            if (number != INT64_MAX)
+            if (number != INT16_MAX)
                 std::cout << myList.findFirst(number) << std::endl;
         }
         if ((whatToDo == "get size") || (whatToDo == "9")) {
@@ -639,7 +637,7 @@ int Interface::myInput() {
     if (isNumber(number))
         return stoi(number);
     else
-        return INT64_MAX;
+        return INT16_MAX;
 }
 
 void Interface::output(std::string name, double totalTime, int howMany, FileManagement *myFileManager) {

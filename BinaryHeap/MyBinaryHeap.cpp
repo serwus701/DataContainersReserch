@@ -26,7 +26,7 @@ void MyBinaryHeap::deleteRoot() {
     }
 }
 
-void MyBinaryHeap::regainHipAttributes() {
+void MyBinaryHeap::regainHeapAttributes() {
     //iterates trough array until making no change
     //when function finds bigger than it's father it replaces them
     //when both sons are bigger than father function chooses bigger son to change with father

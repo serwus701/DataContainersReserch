@@ -23,21 +23,19 @@ public:
 
     void deleteOnPos(int);
 
-    void swap(int, int);
+    void swap(int, int);//swapping elements in two given positions
 
-    int findFirst(int);
+    int findFirst(int);//returns position of first element with equal to given value
 
-    int getSize();
+    int getSize();//returns size of structure
 
-    int get(int);
-
-    int getFromRear(int);
+    int get(int);//returns element at the given position
 
     void show();
 
-    void readFromFile(std::string);
+    void readFromFile(std::string);//file input
 
-    void deleteAll();
+    void deleteAll();//delete structure
 };
 
 

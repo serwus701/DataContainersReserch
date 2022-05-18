@@ -213,7 +213,3 @@ void MyArray::readFromFile(std::string fileName) {
     }
     myFileManager.closeFile();
 }
-
-int MyArray::getFromRear(int position) {
-    return *(tabPointer + size - 1 - position);
-}

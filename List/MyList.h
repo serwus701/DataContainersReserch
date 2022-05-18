@@ -16,7 +16,7 @@ private:
 
     ListElement *getElementPtr(int);
 
-    void addPrimalElement(ListElement *);
+    void addPrimalElement(ListElement *);//adding first element
 
 public:
     void addRear(int);
@@ -31,19 +31,19 @@ public:
 
     void deletePos(int);
 
-    int getSize();
+    int getSize();//returns size of structure
 
-    int getHead();
+    int getHead();//returns element from the front of the structure
 
-    int getContainer(int);
+    int getContainer(int);//returns element at the given position
 
-    int findFirst(int);
+    int findFirst(int);//returns position of first element with equal to given value
 
     int show();
 
-    void readFromFile(std::string);
+    void readFromFile(std::string);//file input
 
-    void deleteAll();
+    void deleteAll();//delete structure
 };
 
 

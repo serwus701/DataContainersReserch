@@ -16,6 +16,7 @@ private:
 public:
     RBTElement(RBTElement *, RBTElement *, RBTElement *, int, char);
     int getContainer();
+    char getUncleColour();
     RBTElement * getLeft();
     RBTElement * getRight();
     void setFather(RBTElement*);
