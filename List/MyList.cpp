@@ -193,6 +193,10 @@ int MyList::show() {
 
 int MyList::findFirst(int number) {
     //iterates trough array until finding container matching given value
+
+    if(size == 0)
+        return -1;
+
     ListElement *iterator = head;
     int i = 0;
     while (iterator->getNext() != nullptr) {
@@ -201,7 +205,7 @@ int MyList::findFirst(int number) {
         iterator = iterator->getNext();
         i++;
     }
-    return NULL;
+    return -1;
 }
 
 void MyList::deleteAll() {
