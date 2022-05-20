@@ -16,7 +16,9 @@
 
 class Interface {
 private:
-    static void testArray();
+    static void test();//testing structures in action
+
+    static void testArray();//testing each structure in action (each interface)
 
     static void testBinary();
 
@@ -24,19 +26,17 @@ private:
 
     static void testRedBlack();
 
-    static int myInput();
+    static void output(std::string, double, int, FileManagement *);//file output
 
-    static void output(std::string, double, int, FileManagement *);
+    static void simulation();//counting time of each process in each function
 
-    static void simulation();
-
-    static void test();
-
-    static void eachArrayFunction(int, int, int, FileManagement *);
+    static void eachArrayFunction(int, int, int, FileManagement *);//simulation of each structure
 
     static void eachBinaryFunction(int, int, int, FileManagement *);
 
     static void eachListFunction(int, int, int, FileManagement *);
+
+    static int myInput();//getting user input
 
 public:
     static void run();
